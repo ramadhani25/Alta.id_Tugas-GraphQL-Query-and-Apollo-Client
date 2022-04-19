@@ -1,11 +1,14 @@
-import "./App.css";
+import { useState, useEffect } from "react";
+// Component
 import Todo from "components/Todo";
+// Style
+import "./App.css";
+import { BeatLoader } from "react-spinners";
+// GraphQL
 import { useLazyQuery, useQuery } from "@apollo/client";
 import { getAllTodos, getTodosByUserId } from "./GraphQL/Todos/queries";
-import { useState, useEffect } from "react";
-import { BeatLoader } from "react-spinners";
 
-function TodoList() {
+const App = () => {
   // State
   const [search, setSearch] = useState("");
   const [todo, setTodo] = useState([]);
@@ -19,6 +22,16 @@ function TodoList() {
   // Function
   const onChangeSearch = (e) => {
     setSearch(e.target.value);
+  };
+
+  const onSubmitSearch = (e) => {
+    e.preventDefault();
+    getDataTodoById({
+      variables: {
+        _eq: parseInt(search),
+      },
+    });
+    setTodo(dataTodoById);
   };
 
   // useEffect
@@ -42,20 +55,12 @@ function TodoList() {
     }
   }, [loadingTodoById]);
 
-  const onSubmitSearch = (e) => {
-    e.preventDefault();
-    getDataTodoById({
-      variables: {
-        _eq: parseInt(search),
-      },
-    });
-    setTodo(dataTodoById);
-  };
-
   return (
     <>
       <div className="container">
         <h1 className="app-title">todos</h1>
+
+        {}
 
         <div className="search-form">
           <form onSubmit={onSubmitSearch}>
@@ -136,6 +141,6 @@ function TodoList() {
       </svg>
     </>
   );
-}
+};
 
-export default TodoList;
+export default App;
