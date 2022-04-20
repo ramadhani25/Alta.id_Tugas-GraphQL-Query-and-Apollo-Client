@@ -17,7 +17,9 @@ const App = () => {
   // Query
   const { data: dataAllTodo, loading: loadingAllTodo } = useQuery(getAllTodos);
   const [getDataTodoById, { data: dataTodoById, loading: loadingTodoById }] =
-    useLazyQuery(getTodosByUserId);
+    useLazyQuery(getTodosByUserId, {
+      fetchPolicy: "network-only",
+    });
 
   // Function
   const onChangeSearch = (e) => {
@@ -59,8 +61,6 @@ const App = () => {
     <>
       <div className="container">
         <h1 className="app-title">todos</h1>
-
-        {}
 
         <div className="search-form">
           <form onSubmit={onSubmitSearch}>
